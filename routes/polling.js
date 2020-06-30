@@ -13,7 +13,7 @@ router.all('/create', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
         //assign random ticket
         mpoll.create(data).then((created) => {
-            util.Jwr(res, true, user, "Newly created question !");
+            util.Jwr(res, true, [], "Newly created question !");
         }).catch(err => {
             util.Jwr(res, false, [], "Error creating new question");
         })

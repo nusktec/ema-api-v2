@@ -20,7 +20,6 @@ router.all('/create', function (req, res, next) {
                 util.Jwr(res, false, [], "Unable to response to this poll");
             }
         }).catch(err => {
-            console.log(err);
             util.Jwr(res, false, [], "Error poll ans. submission");
         })
     }, false)
