@@ -111,6 +111,18 @@ router.all('/get', function (req, res, next) {
     }, false)
 });
 
+//get user by email
+router.all('/get-email', function (req, res, next) {
+    util.JSONChecker(res, req.body, (data) => {
+        muser.findOne({where: {uemail: data.uemail}})
+            .then((user) => {
+                util.Jwr(res, true, user, "User loaded !");
+            }).catch(err => {
+            util.Jwr(res, false, [], "Error updating users");
+        })
+    }, false)
+});
+
 /* Remove user */
 router.all('/delete', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {

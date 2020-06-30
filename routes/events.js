@@ -36,7 +36,7 @@ router.all('/create', function (req, res, next) {
                     util.Jwr(res, false, events, "Event already exist");
                 }
             }).catch(err => {
-            util.Jwr(res, false, err, "Error creating events");
+            util.Jwr(res, false, err, "Error creating events: " + err);
         })
     }, false)
 });
@@ -86,7 +86,7 @@ router.all('/get-by', function (req, res, next) {
                     util.Jwr(res, false, events, "No event exist for org.!");
                 }
             }).catch(err => {
-                console.log(err);
+            console.log(err);
             util.Jwr(res, false, [], "Error fetching events for org.!");
         })
     }, false)
