@@ -36,8 +36,7 @@ router.all('/create', function (req, res, next) {
                     util.Jwr(res, false, events, "Event already exist");
                 }
             }).catch(err => {
-            console.log(err);
-            util.Jwr(res, false, [], "Error creating events");
+            util.Jwr(res, false, err, "Error creating events");
         })
     }, false)
 });
