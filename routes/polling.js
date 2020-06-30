@@ -12,14 +12,9 @@ let events = require('./../models/mevents');
 router.all('/create', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
         //assign random ticket
-        mpoll.findOrCreate({where: {qtitle: data.qtitle}, defaults: data})
-            .then(([user, created]) => {
-                if (created) {
-                    util.Jwr(res, true, user, "Newly created question !");
-                } else {
-                    util.Jwr(res, false, user, "Question already already exist");
-                }
-            }).catch(err => {
+        mpoll.create(data).then((created) => {
+            util.Jwr(res, true, user, "Newly created question !");
+        }).catch(err => {
             util.Jwr(res, false, [], "Error creating new question");
         })
     }, false)

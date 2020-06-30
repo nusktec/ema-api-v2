@@ -10,7 +10,7 @@ class MPoll extends eng.Model {}
 MPoll.init({
     qid: {primaryKey: true, autoIncrement: true, type: eng.DataTypes.INTEGER},
     qeid: {type: eng.DataTypes.INTEGER, allowNull: true},
-    qtitle: {type: eng.DataTypes.STRING, allowNull: false, unique: true},
+    qtitle: {type: eng.DataTypes.STRING, allowNull: false},
     qque: {type: eng.DataTypes.TEXT, allowNull: false},
 }, {sequelize: conn, modelName: 'rs_mpolls'});
 MPoll.belongsTo(mevents, {as: 'event', foreignKey: 'qeid'});
