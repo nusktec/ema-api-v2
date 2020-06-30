@@ -104,7 +104,11 @@ router.all('/get', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
         muser.findOne({where: {uid: data.uid}})
             .then((user) => {
-                util.Jwr(res, true, user, "User loaded !");
+                if (user) {
+                    util.Jwr(res, true, user, "User loaded !");
+                } else {
+                    util.Jwr(res, false, user, "User loaded !");
+                }
             }).catch(err => {
             util.Jwr(res, false, [], "Error updating users");
         })
@@ -116,7 +120,11 @@ router.all('/get-email', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
         muser.findOne({where: {uemail: data.uemail}})
             .then((user) => {
-                util.Jwr(res, true, user, "User loaded !");
+                if (user) {
+                    util.Jwr(res, true, user, "User loaded !");
+                } else {
+                    util.Jwr(res, false, user, "User loaded !");
+                }
             }).catch(err => {
             util.Jwr(res, false, [], "Error updating users");
         })
