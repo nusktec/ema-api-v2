@@ -13,6 +13,6 @@ MAnswer.init({
     auid: {type: eng.DataTypes.INTEGER},
     aans: {type: eng.DataTypes.TEXT, allowNull: false},
 }, {sequelize: conn, modelName: 'rs_manswers'});
-MAnswer.hasMany(mpoll, {as: 'poll', foreignKey: 'qid'});
+MAnswer.belongsTo(mpoll, {as: 'poll', foreignKey: 'aqid'});
 conn.sync();
 module.exports = MAnswer;

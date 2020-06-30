@@ -7,6 +7,8 @@ let auth = require('./../auth/auth');
 let util = require('../utils/utils');
 //models
 let mmessage = require('./../models/mmessage');
+let users = require('./../models/musers');
+let events = require('./../models/mmessage');
 
 /* create questions. */
 router.all('/send', function (req, res, next) {
@@ -34,7 +36,11 @@ router.all('/get-from', function (req, res, next) {
 /* List All belonging messages */
 router.all('/get-to', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
-        mmessage.findAll({where: {mto: data.mto}, order: [['sid', 'DESC']]})
+        mmessage.findAll({
+            where: {mto: data.mto},
+            order: [['sid', 'DESC']],
+            include: [{model: users, as: 'user'}, {model: events, as: 'event'}]
+        })
             .then((user) => {
                 if (user) {
                     util.Jwr(res, true, user, "All message sent listed");

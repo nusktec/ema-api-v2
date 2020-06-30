@@ -13,7 +13,7 @@ let mprogram = require('./../models/mprogram');
 router.all('/list', function (req, res, next) {
     //check if body is empty
     util.JSONChecker(res, req.body, (data) => {
-        mevents.findAll({include: [{model: mprogram, as: "nprograms"}], order: [['eid','DESC']]})
+        mevents.findAll({include: [{model: mprogram, as: "nprograms"}], order: [['eid', 'DESC']]})
             .then((events) => {
                 if (events !== null) {
                     util.Jwr(res, true, events, "successful !");
@@ -36,7 +36,7 @@ router.all('/create', function (req, res, next) {
                     util.Jwr(res, false, events, "Event already exist");
                 }
             }).catch(err => {
-                console.log(err);
+            console.log(err);
             util.Jwr(res, false, [], "Error creating events");
         })
     }, false)
@@ -71,7 +71,24 @@ router.all('/get', function (req, res, next) {
                     util.Jwr(res, false, events, "No event exist !");
                 }
             }).catch(err => {
-            util.Jwr(res, false, [], "Error fetching users");
+            util.Jwr(res, false, [], "Error fetching events");
+        })
+    }, false)
+});
+
+/* user get by organiser. */
+router.all('/get-by', function (req, res, next) {
+    util.JSONChecker(res, req.body, (data) => {
+        mevents.findAll({where: {euid: data.euid}})
+            .then((events) => {
+                if (events) {
+                    util.Jwr(res, true, events, "Events loaded for org.!");
+                } else {
+                    util.Jwr(res, false, events, "No event exist for org.!");
+                }
+            }).catch(err => {
+                console.log(err);
+            util.Jwr(res, false, [], "Error fetching events for org.!");
         })
     }, false)
 });

@@ -13,6 +13,6 @@ MPoll.init({
     qtitle: {type: eng.DataTypes.STRING, allowNull: false, unique: true},
     qque: {type: eng.DataTypes.TEXT, allowNull: false},
 }, {sequelize: conn, modelName: 'rs_mpolls'});
-MPoll.hasMany(mevents, {as: 'event', foreignKey: 'eid'});
+MPoll.belongsTo(mevents, {as: 'event', foreignKey: 'qeid'});
 conn.sync();
 module.exports = MPoll;
