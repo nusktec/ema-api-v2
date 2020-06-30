@@ -15,11 +15,12 @@ router.all('/create', function (req, res, next) {
         //assign random ticket
         manswer.create(data).then((created) => {
             if (created) {
-                util.Jwr(res, true, user, "Your answer has been submitted !");
+                util.Jwr(res, true, [], "Your answer has been submitted !");
             } else {
-                util.Jwr(res, false, user, "Unable to response to this poll");
+                util.Jwr(res, false, [], "Unable to response to this poll");
             }
         }).catch(err => {
+            console.log(err);
             util.Jwr(res, false, [], "Error poll ans. submission");
         })
     }, false)
