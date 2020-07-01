@@ -78,7 +78,23 @@ router.all('/get', function (req, res, next) {
 /* user get by organiser. */
 router.all('/get-by', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
-        mevents.findAll({where: {euid: data.euid}})
+        mevents.findAll({where: {euid: data.euid}, include: [{model: mprogram, as: "nprograms"}]})
+            .then((events) => {
+                if (events) {
+                    util.Jwr(res, true, events, "Events loaded for org.!");
+                } else {
+                    util.Jwr(res, false, events, "No event exist for org.!");
+                }
+            }).catch(err => {
+            util.Jwr(res, false, [], "Error fetching events for org.!");
+        })
+    }, false)
+});
+
+/* user get by organiser. */
+router.all('/get-id', function (req, res, next) {
+    util.JSONChecker(res, req.body, (data) => {
+        mevents.findAll({where: {eid: data.eid}, include: [{model: mprogram, as: "nprograms"}]})
             .then((events) => {
                 if (events) {
                     util.Jwr(res, true, events, "Events loaded for org.!");

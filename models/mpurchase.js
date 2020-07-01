@@ -4,11 +4,8 @@
 const dbConn = require('./mysql');
 let eng = dbConn.engine;
 let conn = dbConn.conn;
-//add models
-let mevents = require('./mevents');
 //user class
-class Epurchase extends eng.Model {
-}
+class Epurchase extends eng.Model {}
 Epurchase.init({
     bid: {primaryKey: true, autoIncrement: true, type: eng.DataTypes.INTEGER},
     beid: {type: eng.DataTypes.INTEGER, allowNull: false},

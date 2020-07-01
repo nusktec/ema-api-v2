@@ -8,7 +8,8 @@ let util = require('../utils/utils');
 //models
 let purchase = require('./../models/mpurchase');
 let cutil = require("../utils/tmpUtils");
-
+//add model
+let mevents = require('./../models/mevents');
 /* create user. */
 router.all('/create', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
@@ -31,6 +32,18 @@ router.all('/create', function (req, res, next) {
 router.all('/get', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
         purchase.findAll({where: {buid: data.buid}})
+            .then((user) => {
+                util.Jwr(res, true, user, "Event loaded ! ");
+            }).catch(err => {
+            util.Jwr(res, false, err, "Error getting ticket ");
+        })
+    }, false)
+});
+
+/* get ticket. */
+router.all('/get-ticket', function (req, res, next) {
+    util.JSONChecker(res, req.body, (data) => {
+        purchase.findAll({where: {bticket: data.bticket}})
             .then((user) => {
                 util.Jwr(res, true, user, "Event loaded ! ");
             }).catch(err => {
