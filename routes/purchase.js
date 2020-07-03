@@ -10,6 +10,7 @@ let purchase = require('./../models/mpurchase');
 let cutil = require("../utils/tmpUtils");
 //add model
 let mevents = require('./../models/mevents');
+let mconnects = require('./../models/mconnects');
 /* create user. */
 router.all('/create', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
@@ -39,6 +40,51 @@ router.all('/get', function (req, res, next) {
         })
     }, false)
 });
+
+/* get user. */
+router.all('/get-full', function (req, res, next) {
+    util.JSONChecker(res, req.body, async (data) => {
+        const result = await mconnects.query("SELECT ex.eid, ex.etitle, ex.ebanner, e.*, u.* FROM `rs_epurchases` e LEFT JOIN `rs_users` u ON e.buid=u.uid LEFT JOIN `rs_events` ex ON e.beid=ex.eid");
+        if (result) {
+            util.Jwr(res, false, result, "Event full loaded...");
+        } else {
+            util.Jwr(res, false, [], "Event full loaded...");
+        }
+    }, false)
+});
+
+router.all('/get-event-full', function (req, res, next) {
+    util.JSONChecker(res, req.body, async (data) => {
+        //return error
+        if (data.beid) {
+            const result = await mconnects.query("SELECT ex.eid, ex.etitle, ex.ebanner, e.*, u.* FROM `rs_epurchases` e LEFT JOIN `rs_users` u ON e.buid=u.uid LEFT JOIN `rs_events` ex ON e.beid=ex.eid WHERE e.beid=" + data.beid);
+            if (result[0].length > 0) {
+                util.Jwr(res, false, result, "Event full loaded...");
+            } else {
+                util.Jwr(res, false, [], "Error loading event full path or event id not valid...");
+            }
+        } else {
+            util.Jwr(res, false, [], "Error loading event full path, no event id passed...");
+        }
+    }, false)
+});
+
+router.all('/get-id-full', function (req, res, next) {
+    util.JSONChecker(res, req.body, async (data) => {
+        //return error
+        if (data.buid) {
+            const result = await mconnects.query("SELECT ex.eid, ex.etitle, ex.ebanner, e.*, u.* FROM `rs_epurchases` e LEFT JOIN `rs_users` u ON e.buid=u.uid LEFT JOIN `rs_events` ex ON e.beid=ex.eid WHERE e.buid=" + data.buid);
+            if (result[0].length > 0) {
+                util.Jwr(res, false, result, "Event full loaded...");
+            } else {
+                util.Jwr(res, false, [], "Error loading event full path or event id not valid...");
+            }
+        } else {
+            util.Jwr(res, false, [], "Error loading event full path, no event id passed...");
+        }
+    }, false)
+});
+
 
 /* get ticket. */
 router.all('/get-ticket', function (req, res, next) {

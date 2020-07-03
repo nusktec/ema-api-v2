@@ -68,7 +68,7 @@ router.all('/delete', function (req, res, next) {
         mspeaker.destroy({where: {sid: data.sid}})
             .then((user) => {
                 if (user) {
-                    util.Jwr(res, true, user, "User deleted");
+                    util.Jwr(res, true, user, "Speaker deleted");
                 } else {
                     util.Jwr(res, false, user, "Unable to delete speaker !");
                 }

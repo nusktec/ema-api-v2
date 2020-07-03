@@ -72,6 +72,22 @@ router.all('/get', function (req, res, next) {
                     util.Jwr(res, false, program, "No program exist !");
                 }
             }).catch(err => {
+            util.Jwr(res, false, [], "Program getting errors");
+        })
+    }, false)
+});
+
+/* user get. */
+router.all('/get', function (req, res, next) {
+    util.JSONChecker(res, req.body, (data) => {
+        mprogram.findOne({where: {[Seq.Op.or]:[{pid: data.pid}, {palias: data.pid}]}})
+            .then((program) => {
+                if (program) {
+                    util.Jwr(res, true, program, "Program loaded !");
+                } else {
+                    util.Jwr(res, false, program, "No program exist !");
+                }
+            }).catch(err => {
             util.Jwr(res, false, [], "Program updating users");
         })
     }, false)
