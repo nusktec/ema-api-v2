@@ -3,6 +3,7 @@ let router = express.Router();
 let sha1 = require('sha1');
 let md5 = require('md5');
 let auth = require('./../auth/auth');
+const {Op} = require("sequelize");
 //custom libs
 let util = require('../utils/utils');
 let cutil = util.util;
@@ -12,7 +13,7 @@ let mnotifications = require('./../models/mnotifications');
 /* get by ticket */
 router.all('/get', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
-        mnotifications.findAll({where: {nuid: data.nuid}})
+        mnotifications.findAll({where: {[Op.or]: [{nuid: data.nuid}, {nuid: 0}]}})
             .then((ticket) => {
                 if (ticket) {
                     util.Jwr(res, true, ticket, "Notifications loaded");
