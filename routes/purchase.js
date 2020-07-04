@@ -51,7 +51,7 @@ router.all('/get-full', function (req, res, next) {
             type: QueryTypes.SELECT
         });
         if (result) {
-            util.Jwr(res, false, result, "Event full loaded...");
+            util.Jwr(res, true, result, "Event full loaded...");
         } else {
             util.Jwr(res, false, [], "Event full loaded...");
         }
@@ -67,7 +67,7 @@ router.all('/get-event-full', function (req, res, next) {
                 raw: true,
             });
             if (result[0].length > 0) {
-                util.Jwr(res, false, result[0], "Event full loaded...");
+                util.Jwr(res, true, result[0], "Event full loaded...");
             } else {
                 util.Jwr(res, false, [], "Error loading event full path or event id not valid...");
             }
@@ -86,7 +86,7 @@ router.all('/get-id-full', function (req, res, next) {
                 raw: true,
             });
             if (result[0].length > 0) {
-                util.Jwr(res, false, result[0], "Event full loaded...");
+                util.Jwr(res, true, result[0], "Event full loaded...");
             } else {
                 util.Jwr(res, false, [], "Error loading event full path or event id not valid...");
             }
