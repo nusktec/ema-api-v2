@@ -10,7 +10,6 @@ class MNotifications extends eng.Model {}
 MNotifications.init({
     nid: {primaryKey: true, autoIncrement: true, type: eng.DataTypes.INTEGER},
     nuid: {type: eng.DataTypes.INTEGER, allowNull: false},
-    nsender: {type: eng.DataTypes.STRING, allowNull: false},
     nbody: {type: eng.DataTypes.STRING, allowNull: false},
 }, {sequelize: conn, modelName: 'rs_notifications'});
 
