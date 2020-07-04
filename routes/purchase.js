@@ -62,13 +62,12 @@ router.all('/get-event-full', function (req, res, next) {
     util.JSONChecker(res, req.body, async (data) => {
         //return error
         if (data.beid) {
-            const result = await mconnects.query("SELECT ex.eid, ex.etitle, ex.ebanner, e.*, u.* FROM `rs_epurchases` e LEFT JOIN `rs_users` u ON e.buid=u.uid LEFT JOIN `rs_events` ex ON e.beid=ex.eid WHERE e.beid=" + data.beid, {
+            const result = await mconnects.query("SELECT ex.eid, ex.etitle, ex.ebanner, e.*, u.* FROM `rs_epurchases` e LEFT JOIN `rs_users` u ON e.buid=u.uid LEFT JOIN `rs_events` ex ON e.beid=ex.eid WHERE e.beid=" + data.beid + " GROUP BY e.bid", {
                 plain: false,
                 raw: true,
-                type: QueryTypes.SELECT
             });
             if (result[0].length > 0) {
-                util.Jwr(res, false, result, "Event full loaded...");
+                util.Jwr(res, false, result[0], "Event full loaded...");
             } else {
                 util.Jwr(res, false, [], "Error loading event full path or event id not valid...");
             }
@@ -85,10 +84,9 @@ router.all('/get-id-full', function (req, res, next) {
             const result = await mconnects.query("SELECT ex.eid, ex.etitle, ex.ebanner, e.*, u.* FROM `rs_epurchases` e LEFT JOIN `rs_users` u ON e.buid=u.uid LEFT JOIN `rs_events` ex ON e.beid=ex.eid WHERE e.buid=" + data.buid, {
                 plain: false,
                 raw: true,
-                type: QueryTypes.SELECT
             });
             if (result[0].length > 0) {
-                util.Jwr(res, false, result, "Event full loaded...");
+                util.Jwr(res, false, result[0], "Event full loaded...");
             } else {
                 util.Jwr(res, false, [], "Error loading event full path or event id not valid...");
             }
