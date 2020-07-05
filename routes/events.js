@@ -94,7 +94,7 @@ router.all('/get-by', function (req, res, next) {
 /* user get by organiser. */
 router.all('/get-id', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
-        mevents.findAll({where: {eid: data.eid}, include: [{model: mprogram, as: "nprograms"}]})
+        mevents.findOne({where: {eid: data.eid}, include: [{model: mprogram, as: "nprograms"}]})
             .then((events) => {
                 if (events) {
                     util.Jwr(res, true, events, "Events loaded for org.!");
