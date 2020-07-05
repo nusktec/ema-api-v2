@@ -99,7 +99,7 @@ router.all('/get-id-full', function (req, res, next) {
 /* get ticket. */
 router.all('/get-ticket', function (req, res, next) {
     util.JSONChecker(res, req.body, async (data) => {
-        purchase.findAll({where: {bticket: data.bticket}})
+        purchase.findOne({where: {bticket: data.bticket}})
             .then((user) => {
                 util.Jwr(res, true, user, "Event loaded ! ");
             }).catch(err => {
