@@ -8,6 +8,7 @@ let util = require('./../utils/utils');
 //models
 let mpoll = require('./../models/mpolls');
 let events = require('./../models/mevents');
+let dbconn = require('./../models/mconnects');
 /* create user. */
 router.all('/create', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
@@ -29,6 +30,22 @@ router.all('/get', function (req, res, next) {
             }).catch(err => {
             util.Jwr(res, false, [], "Error getting questions ");
         })
+    }, false)
+});
+
+/* get user. */
+router.all('/get-id', function (req, res, next) {
+    util.JSONChecker(res, req.body, async (data) => {
+        if(!data.buid){
+            util.Jwr(res, false, [], "Invalid BUID Number...");
+            return;
+        }
+        const result = await dbconn.query("SELECT mp.*, pp.*, ev.eid, ev.etitle FROM `rs_mpolls` mp LEFT JOIN `rs_epurchases` pp ON mp.qeid=pp.beid LEFT JOIN `rs_events` ev ON mp.qeid=ev.eid WHERE pp.buid=" + data.buid);
+        if (result[0].length > 0) {
+            util.Jwr(res, true, result[0], "Your polls has been loaded");
+        } else {
+            util.Jwr(res, false, [], "No polls for you !");
+        }
     }, false)
 });
 
