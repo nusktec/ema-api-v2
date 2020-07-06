@@ -16,6 +16,7 @@ let mgeneral = require('./mgeneral');
 let mmessages = require('./mmessage');
 let mpoll = require('./mpolls');
 let mansw = require('./manswer');
+let mprolist = require('./mprolist');
 const create = false;
 class init {
     constructor() {
@@ -36,6 +37,7 @@ class init {
             mmessages;
             mpoll;
             mansw;
+            mprolist;
         }
     }
 }

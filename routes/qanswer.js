@@ -40,7 +40,7 @@ router.all('/get', function (req, res, next) {
 /* List All raw */
 router.all('/list', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
-        manswer.findAll({order: [['aid', 'DESC']]})
+        manswer.findAll({where: {aqid: data.aqid}, order: [['aid', 'DESC']], include: {model: mpoll, as: 'poll'}})
             .then((user) => {
                 if (user) {
                     util.Jwr(res, true, user, "All responses listed");

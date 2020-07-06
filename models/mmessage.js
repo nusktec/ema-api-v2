@@ -11,7 +11,7 @@ class MMessage extends eng.Model {}
 
 MMessage.init({
     mid: {primaryKey: true, autoIncrement: true, type: eng.DataTypes.INTEGER},
-    meid: {type: eng.DataTypes.INTEGER, allowNull: true},
+    meid: {type: eng.DataTypes.INTEGER, allowNull: false},
     mfrom: {type: eng.DataTypes.INTEGER, allowNull: false},
     mto: {type: eng.DataTypes.INTEGER, allowNull: false},
     mbody: {type: eng.DataTypes.TEXT, allowNull: false},

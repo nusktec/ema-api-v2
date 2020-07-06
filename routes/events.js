@@ -54,7 +54,7 @@ router.all('/update', function (req, res, next) {
                     util.Jwr(res, false, events, "Unable to update non-existing events");
                 }
             }).catch(err => {
-            util.Jwr(res, false, [], "Error updating users");
+            util.Jwr(res, false, [], "Error updating event");
         })
     }, false)
 });

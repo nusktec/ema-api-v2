@@ -7,6 +7,7 @@ let auth = require('./../auth/auth');
 let util = require('../utils/utils');
 //models
 let mspeaker = require('./../models/mspeaker');
+let muser = require('./../models/musers');
 
 /* create user. */
 router.all('/create', function (req, res, next) {
@@ -14,6 +15,9 @@ router.all('/create', function (req, res, next) {
         mspeaker.findOrCreate({where: {semail: data.semail}, defaults: data})
             .then(([user, created]) => {
                 if (created) {
+                    //create speaker account
+
+                    //now print out all
                     util.Jwr(res, true, user, "Newly created !");
                 } else {
                     util.Jwr(res, false, user, "Email already exist");

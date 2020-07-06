@@ -8,10 +8,10 @@ let util = require('../utils/utils');
 //models
 let mmessage = require('./../models/mmessage');
 let users = require('./../models/musers');
-let events = require('./../models/mmessage');
+let events = require('./../models/mevents');
 
 /* create questions. */
-router.all('/send', function (req, res, next) {
+router.all('/create', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
         mmessage.create(data).then(resp => {
             util.Jwr(res, true, resp, "Message created !");
@@ -24,8 +24,10 @@ router.all('/send', function (req, res, next) {
 /* get user. */
 router.all('/get-from', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
-        mmessage.findAll({where: {mfrom: data.mfrom}})
-            .then((user) => {
+        mmessage.findAll({
+            where: {mfrom: data.mfrom},
+            include: [{model: users, as: 'user'}, {model: events, as: 'event', attributes: ['eid', 'etitle', 'elocation', 'estart_date', 'eend_date']}]
+        }).then((user) => {
                 util.Jwr(res, true, user, "Your messages listed !");
             }).catch(err => {
             util.Jwr(res, false, [], "Error listing messages");
@@ -38,16 +40,17 @@ router.all('/get-to', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
         mmessage.findAll({
             where: {mto: data.mto},
-            order: [['sid', 'DESC']],
-            include: [{model: users, as: 'user'}, {model: events, as: 'event'}]
-        })
-            .then((user) => {
+            order: [['mid', 'DESC']],
+            include: [{model: users, as: 'user'}, {model: events, as: 'event',
+                attributes: ['eid', 'etitle', 'elocation', 'estart_date', 'eend_date']}]
+        }).then((user) => {
                 if (user) {
                     util.Jwr(res, true, user, "All message sent listed");
                 } else {
                     util.Jwr(res, false, user, "Unable to list your messages !");
                 }
             }).catch(err => {
+            console.log(err);
             util.Jwr(res, false, [], "Error listening messages");
         })
     }, true)
@@ -56,7 +59,10 @@ router.all('/get-to', function (req, res, next) {
 /* List All Users */
 router.all('/list', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
-        mmessage.findAll({order: [['sid', 'DESC']]})
+        mmessage.findAll({
+            order: [['mid', 'DESC']],
+            include: [{model: users, as: 'user'}, {model: events, as: 'event', attributes: ['eid', 'etitle', 'elocation', 'estart_date', 'eend_date']}]
+        })
             .then((user) => {
                 if (user) {
                     util.Jwr(res, true, user, "All messages");

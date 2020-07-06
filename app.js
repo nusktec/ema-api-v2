@@ -26,6 +26,7 @@ let messageRouter = require('./routes/messaging');
 let pollRouter = require('./routes/polling');
 let responseRouter = require('./routes/qanswer');
 let notificationRouter = require('./routes/notifications');
+let progrlistRouter = require('./routes/prolist');
 let uploadRouter = require('./routes/uploads');
 
 let app = express();
@@ -71,6 +72,7 @@ app.use('/api/yenagoa', yenagoaRouter);
 app.use('/api/message', messageRouter);
 app.use('/api/polling', pollRouter);
 app.use('/api/notification', notificationRouter);
+app.use('/api/mylist', progrlistRouter);
 app.use('/api/response', responseRouter);
 //uploads api
 app.use('/api/uploads', uploadRouter);
