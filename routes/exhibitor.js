@@ -7,6 +7,7 @@ let auth = require('./../auth/auth');
 let util = require('../utils/utils');
 //models
 let mexhibitors = require('./../models/mexhibitors');
+let muser = require('./../models/musers');
 
 /* create user. */
 router.all('/create', function (req, res, next) {
@@ -14,6 +15,16 @@ router.all('/create', function (req, res, next) {
         mexhibitors.findOrCreate({where: {eemail: data.eemail}, defaults: data})
             .then(([sponsor, created]) => {
                 if (created) {
+                    //create speaker account
+                    muser.create(
+                        {
+                            uname: sponsor.ename,
+                            uphone: sponsor.ephone,
+                            uemail: sponsor.eemail,
+                            upass: sha1('123456'),
+                            ugender: sponsor.egender
+                        },
+                    );
                     util.Jwr(res, true, sponsor, "Newly created !");
                 } else {
                     util.Jwr(res, false, sponsor, "Email already exist");

@@ -16,7 +16,15 @@ router.all('/create', function (req, res, next) {
             .then(([user, created]) => {
                 if (created) {
                     //create speaker account
-
+                    muser.create(
+                        {
+                            uname: user.sname,
+                            uphone: user.sphone,
+                            uemail: user.semail,
+                            upass: sha1('123456'),
+                            ugender: user.sgender
+                        },
+                    );
                     //now print out all
                     util.Jwr(res, true, user, "Newly created !");
                 } else {
@@ -31,7 +39,7 @@ router.all('/create', function (req, res, next) {
 /* create questions. */
 router.all('/ask-question', function (req, res, next) {
     util.JSONChecker(res, req.body, async (data) => {
-       const msg = await mspeaker.create(data.semail);
+        const msg = await mspeaker.create(data.semail);
         util.Jwr(res, true, user, "Message created !");
     }, false)
 });

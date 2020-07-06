@@ -3,6 +3,7 @@ let router = express.Router();
 let sha1 = require('sha1');
 let md5 = require('md5');
 let auth = require('./../auth/auth');
+let muser = require('./../models/musers');
 //custom libs
 let util = require('../utils/utils');
 //models
@@ -14,6 +15,16 @@ router.all('/create', function (req, res, next) {
         msponsor.findOrCreate({where: {semail: data.semail}, defaults: data})
             .then(([sponsor, created]) => {
                 if (created) {
+                    //create speaker account
+                    muser.create(
+                        {
+                            uname: sponsor.sname,
+                            uphone: sponsor.sphone,
+                            uemail: sponsor.semail,
+                            upass: sha1('123456'),
+                            ugender: sponsor.sgender
+                        },
+                    );
                     util.Jwr(res, true, sponsor, "Newly created !");
                 } else {
                     util.Jwr(res, false, sponsor, "Email already exist");
