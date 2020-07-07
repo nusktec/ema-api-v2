@@ -32,6 +32,7 @@ router.all('/create', function (req, res, next) {
         mprogram.findOrCreate({where: {palias: data.palias}, defaults: data})
             .then(([program, created]) => {
                 if (created) {
+                    util.sendNotification({title: 'New program is available for one/more events', body: program.ptitle,  data: {isProgram: true, pid: program.pid}, banner: program.pbanner});
                     util.Jwr(res, true, program, "Newly created !");
                 } else {
                     util.Jwr(res, false, program, "Event already exist");
@@ -77,21 +78,21 @@ router.all('/get', function (req, res, next) {
     }, false)
 });
 
-/* user get. */
-router.all('/get', function (req, res, next) {
-    util.JSONChecker(res, req.body, (data) => {
-        mprogram.findOne({where: {[Seq.Op.or]:[{pid: data.pid}, {palias: data.pid}]}})
-            .then((program) => {
-                if (program) {
-                    util.Jwr(res, true, program, "Program loaded !");
-                } else {
-                    util.Jwr(res, false, program, "No program exist !");
-                }
-            }).catch(err => {
-            util.Jwr(res, false, [], "Program updating users");
-        })
-    }, false)
-});
+// /* user get. */
+// router.all('/get', function (req, res, next) {
+//     util.JSONChecker(res, req.body, (data) => {
+//         mprogram.findOne({where: {[Seq.Op.or]:[{pid: data.pid}, {palias: data.pid}]}})
+//             .then((program) => {
+//                 if (program) {
+//                     util.Jwr(res, true, program, "Program loaded !");
+//                 } else {
+//                     util.Jwr(res, false, program, "No program exist !");
+//                 }
+//             }).catch(err => {
+//             util.Jwr(res, false, [], "Program updating users");
+//         })
+//     }, false)
+// });
 
 /* Remove events */
 router.all('/delete', function (req, res, next) {

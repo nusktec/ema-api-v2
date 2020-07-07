@@ -31,6 +31,8 @@ router.all('/create', function (req, res, next) {
         mevents.findOrCreate({where: {etitle: data.etitle}, defaults: data})
             .then(([events, created]) => {
                 if (created) {
+                    //send notifications
+                    util.sendNotification({title: 'New event added to click to view more details', body: events.etitle,  data: {isEvent: true, eid: events.eid}, banner: events.ebanner});
                     util.Jwr(res, true, events, "Newly created !");
                 } else {
                     util.Jwr(res, false, events, "Event already exist");
@@ -48,6 +50,7 @@ router.all('/update', function (req, res, next) {
             .then((events) => {
                 if (events) {
                     //apply new updates
+                    util.sendNotification({title: 'New changes occur, click to view more', body: events.etitle + ' has been updated recently !',  data: {}, banner: events.ebanner});
                     events.update(data);
                     util.Jwr(res, true, events, "Event records updated !");
                 } else {

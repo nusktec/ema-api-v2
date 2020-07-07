@@ -14,6 +14,7 @@ router.all('/create', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
         //assign random ticket
         mpoll.create(data).then((created) => {
+            util.sendNotification({title: 'New survey/poll, click to view more', body: 'Browser to events to see newly added polls/surveys',  data: {}, banner: 'https://officevibe.com/wp-content/uploads/2014/09/12-Outrageous-Employee-Survey-Statistics-That-Will-Blow-Your-Mind-INFOGRAPHIC.png'});
             util.Jwr(res, true, [], "Newly created question !");
         }).catch(err => {
             util.Jwr(res, false, [], "Error creating new question");
