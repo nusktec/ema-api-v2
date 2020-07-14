@@ -25,9 +25,9 @@ router.all('/create', function (req, res, next) {
                             ugender: sponsor.egender
                         },
                     );
-                    util.Jwr(res, true, sponsor, "Newly created !");
+                    util.Jwr(res, true, sponsor, "New exhibitor created !");
                 } else {
-                    util.Jwr(res, false, sponsor, "Email already exist");
+                    util.Jwr(res, false, sponsor, "Exhibitor email already exist");
                 }
             }).catch(err => {
             util.Jwr(res, false, [], "Error creating exhibitors");

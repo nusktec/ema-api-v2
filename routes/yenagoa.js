@@ -14,9 +14,9 @@ router.all('/create', function (req, res, next) {
         myenagoa.findOrCreate({where: {yemail: data.yemail}, defaults: data})
             .then(([user, created]) => {
                 if (created) {
-                    util.Jwr(res, true, user, "Newly created !");
+                    util.Jwr(res, true, user, "New yenagoa date has created !");
                 } else {
-                    util.Jwr(res, false, user, "Email already exist");
+                    util.Jwr(res, false, user, "Email already exist for yenagoa content");
                 }
             }).catch(err => {
             util.Jwr(res, false, [], "Error creating yenagoa ");

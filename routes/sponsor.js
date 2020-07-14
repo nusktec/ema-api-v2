@@ -25,7 +25,7 @@ router.all('/create', function (req, res, next) {
                             ugender: sponsor.sgender
                         },
                     );
-                    util.Jwr(res, true, sponsor, "Newly created !");
+                    util.Jwr(res, true, sponsor, "New sponsor created/added !");
                 } else {
                     util.Jwr(res, false, sponsor, "Email already exist");
                 }

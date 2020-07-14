@@ -32,13 +32,13 @@ router.all('/create', function (req, res, next) {
             .then(([events, created]) => {
                 if (created) {
                     //send notifications
-                    util.sendNotification({title: 'New event added to click to view more details', body: events.etitle,  data: {isEvent: true, eid: events.eid}, banner: events.ebanner});
-                    util.Jwr(res, true, events, "Newly created !");
+                    util.sendNotification({title: 'New event has been added to click to view more details', body: events.etitle,  data: {isEvent: true, eid: events.eid}, banner: events.ebanner});
+                    util.Jwr(res, true, events, "New event has been created !");
                 } else {
-                    util.Jwr(res, false, events, "Event already exist");
+                    util.Jwr(res, false, events, "Event with similar title already existing...");
                 }
             }).catch(err => {
-            util.Jwr(res, false, err, "Error creating events: " + err);
+            util.Jwr(res, false, err, "Error creating new events: " + err);
         })
     }, false)
 });
@@ -50,14 +50,14 @@ router.all('/update', function (req, res, next) {
             .then((events) => {
                 if (events) {
                     //apply new updates
-                    util.sendNotification({title: 'New changes occur, click to view more', body: events.etitle + ' has been updated recently !',  data: {}, banner: events.ebanner});
+                    util.sendNotification({title: 'New changes has occur in one or more events, click to view more', body: events.etitle + ' has been updated recently !',  data: {}, banner: events.ebanner});
                     events.update(data);
-                    util.Jwr(res, true, events, "Event records updated !");
+                    util.Jwr(res, true, events, "The even't records has been updated !");
                 } else {
                     util.Jwr(res, false, events, "Unable to update non-existing events");
                 }
             }).catch(err => {
-            util.Jwr(res, false, [], "Error updating event");
+            util.Jwr(res, false, [], "Error updating the selected event");
         })
     }, false)
 });
@@ -68,9 +68,9 @@ router.all('/get', function (req, res, next) {
         mevents.findOne({where: {eid: data.eid}, include: [{model: mprogram, as: "nprograms"}]})
             .then((events) => {
                 if (events) {
-                    util.Jwr(res, true, events, "Events loaded !");
+                    util.Jwr(res, true, events, "Events has been loaded !");
                 } else {
-                    util.Jwr(res, false, events, "No event exist !");
+                    util.Jwr(res, false, events, "No event exist withing the range");
                 }
             }).catch(err => {
             util.Jwr(res, false, [], "Error fetching events");
@@ -84,7 +84,7 @@ router.all('/get-by', function (req, res, next) {
         mevents.findAll({where: {euid: data.euid}, include: [{model: mprogram, as: "nprograms"}]})
             .then((events) => {
                 if (events) {
-                    util.Jwr(res, true, events, "Events loaded for org.!");
+                    util.Jwr(res, true, events, "Events has been loaded for org.!");
                 } else {
                     util.Jwr(res, false, events, "No event exist for org.!");
                 }
@@ -100,7 +100,7 @@ router.all('/get-id', function (req, res, next) {
         mevents.findOne({where: {eid: data.eid}, include: [{model: mprogram, as: "nprograms"}]})
             .then((events) => {
                 if (events) {
-                    util.Jwr(res, true, events, "Events loaded for org.!");
+                    util.Jwr(res, true, events, "Events has been loaded for org.!");
                 } else {
                     util.Jwr(res, false, events, "No event exist for org.!");
                 }
@@ -117,9 +117,9 @@ router.all('/get-alias', function (req, res, next) {
         mevents.findOne({where: {ealias: data.ealias}, include: [{model: mprogram, as: "nprograms"}]})
             .then((events) => {
                 if (events) {
-                    util.Jwr(res, true, events, "Events loaded !");
+                    util.Jwr(res, true, events, "Events has been loaded !");
                 } else {
-                    util.Jwr(res, false, events, "No event associated !");
+                    util.Jwr(res, false, events, "No event associated with your query !");
                 }
             }).catch(err => {
             util.Jwr(res, false, [], "Error fetching alias users");
@@ -136,7 +136,7 @@ router.all('/delete', function (req, res, next) {
                     mevents.destroy({where: {eid: data.eid}})
                         .then((event) => {
                             if (event) {
-                                util.Jwr(res, true, [], "Events deleted");
+                                util.Jwr(res, true, [], "Events has been deleted successfully");
                             } else {
                                 util.Jwr(res, false, [], "Unable to delete no-existing events !");
                             }

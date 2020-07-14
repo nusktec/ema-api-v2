@@ -67,7 +67,7 @@ router.all('/create', function (req, res, next) {
         muser.findOrCreate({where: {uemail: data.uemail}, defaults: data})
             .then(([user, created]) => {
                 if (created) {
-                    util.Jwr(res, true, user, "Newly created !");
+                    util.Jwr(res, true, user, "New user has been added/created !");
                 } else {
                     util.Jwr(res, false, user, "Email already exist");
                 }

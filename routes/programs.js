@@ -17,7 +17,7 @@ router.all('/list', function (req, res, next) {
         mprogram.findAll({order: [['pid', 'DESC']]})
             .then((program) => {
                 if (program !== null) {
-                    util.Jwr(res, true, program, "successful !");
+                    util.Jwr(res, true, program, "Program listed successful !");
                 } else {
                     util.Jwr(res, false, {}, "No program list added");
                 }
@@ -33,9 +33,9 @@ router.all('/create', function (req, res, next) {
             .then(([program, created]) => {
                 if (created) {
                     util.sendNotification({title: 'New program is available for one/more events', body: program.ptitle,  data: {isProgram: true, pid: program.pid}, banner: program.pbanner});
-                    util.Jwr(res, true, program, "Newly created !");
+                    util.Jwr(res, true, program, "New program added/created successfully !");
                 } else {
-                    util.Jwr(res, false, program, "Event already exist");
+                    util.Jwr(res, false, program, "Program event already exist");
                 }
             }).catch(err => {
                 console.log(err);
@@ -52,7 +52,7 @@ router.all('/update', function (req, res, next) {
                 if (program) {
                     //apply new updates
                     program.update(data);
-                    util.Jwr(res, true, program, "Program records updated !");
+                    util.Jwr(res, true, program, "Program records updated accordingly !");
                 } else {
                     util.Jwr(res, false, program, "Unable to update non-existing program");
                 }
@@ -100,7 +100,7 @@ router.all('/delete', function (req, res, next) {
         mprogram.destroy({where: {pid: data.pid}})
             .then((program) => {
                 if (event) {
-                    util.Jwr(res, true, program, "Events deleted");
+                    util.Jwr(res, true, program, "Associated events deleted");
                 } else {
                     util.Jwr(res, false, program, "Unable to delete program !");
                 }

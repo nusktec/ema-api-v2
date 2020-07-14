@@ -14,7 +14,7 @@ let events = require('./../models/mevents');
 router.all('/create', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
         mmessage.create(data).then(resp => {
-            util.Jwr(res, true, resp, "Message created !");
+            util.Jwr(res, true, resp, "Message sent successfully !");
         }).catch(err => {
             util.Jwr(res, false, err, "Unable to create message...");
         })

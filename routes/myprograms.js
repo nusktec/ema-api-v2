@@ -14,9 +14,9 @@ router.all('/add', function (req, res, next) {
         mmyprograms.findOrCreate({where: {xid: 0}, defaults: data})
             .then(([sponsor, created]) => {
                 if (created) {
-                    util.Jwr(res, true, sponsor, "Newly created !");
+                    util.Jwr(res, true, sponsor, "New program added/created successfully !");
                 } else {
-                    util.Jwr(res, false, sponsor, "Zero index already exist");
+                    util.Jwr(res, false, sponsor, "Zero index already exist or trim inputs");
                 }
             }).catch(err => {
             util.Jwr(res, false, [], "Error adding events");
@@ -42,7 +42,7 @@ router.all('/delete', function (req, res, next) {
         mmyprograms.destroy({where: {xid: data.xid}})
             .then((user) => {
                 if (user) {
-                    util.Jwr(res, true, user, "Program deleted");
+                    util.Jwr(res, true, user, "The selected program has been deleted");
                 } else {
                     util.Jwr(res, false, user, "Unable to delete my program !");
                 }

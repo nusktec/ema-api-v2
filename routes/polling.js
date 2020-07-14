@@ -15,7 +15,7 @@ router.all('/create', function (req, res, next) {
         //assign random ticket
         mpoll.create(data).then((created) => {
             util.sendNotification({title: 'New survey/poll, click to view more', body: 'Browser to events to see newly added polls/surveys',  data: {}, banner: 'https://officevibe.com/wp-content/uploads/2014/09/12-Outrageous-Employee-Survey-Statistics-That-Will-Blow-Your-Mind-INFOGRAPHIC.png'});
-            util.Jwr(res, true, [], "Newly created question !");
+            util.Jwr(res, true, [], "New questions/poll added !");
         }).catch(err => {
             util.Jwr(res, false, [], "Error creating new question");
         })
@@ -56,7 +56,7 @@ router.all('/delete-all', function (req, res, next) {
         mpoll.destroy({where: {qtitle: data.qtitle}})
             .then((user) => {
                 if (user) {
-                    util.Jwr(res, true, user, "Questions deleted");
+                    util.Jwr(res, true, user, "All associated questions deleted");
                 } else {
                     util.Jwr(res, false, user, "Unable to delete questions !");
                 }
@@ -72,7 +72,7 @@ router.all('/delete', function (req, res, next) {
         mpoll.destroy({where: {qid: data.qid}})
             .then((user) => {
                 if (user) {
-                    util.Jwr(res, true, user, "Question deleted");
+                    util.Jwr(res, true, user, "Associated question deleted");
                 } else {
                     util.Jwr(res, false, user, "Unable to delete question !");
                 }

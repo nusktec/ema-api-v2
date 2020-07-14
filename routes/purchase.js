@@ -20,7 +20,7 @@ router.all('/create', function (req, res, next) {
         purchase.findOrCreate({where: {bticket: data.bticket}, defaults: data})
             .then(([user, created]) => {
                 if (created) {
-                    util.Jwr(res, true, user, "Newly created purchase !");
+                    util.Jwr(res, true, user, "New purchase were created just now !");
                 } else {
                     util.Jwr(res, false, user, "Ticket already already exist");
                 }

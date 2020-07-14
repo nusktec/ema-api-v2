@@ -26,7 +26,7 @@ router.all('/create', function (req, res, next) {
                         },
                     );
                     //now print out all
-                    util.Jwr(res, true, user, "Newly created !");
+                    util.Jwr(res, true, user, "New speaker has been created !");
                 } else {
                     util.Jwr(res, false, user, "Email already exist");
                 }
@@ -40,7 +40,7 @@ router.all('/create', function (req, res, next) {
 router.all('/ask-question', function (req, res, next) {
     util.JSONChecker(res, req.body, async (data) => {
         const msg = await mspeaker.create(data.semail);
-        util.Jwr(res, true, user, "Message created !");
+        util.Jwr(res, true, user, "Message/Question created to be treated !");
     }, false)
 });
 
