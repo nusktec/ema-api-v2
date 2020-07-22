@@ -12,7 +12,7 @@ let mprolist = require('./../models/mprolist');
 let muser = require('./../models/musers');
 let mprogram = require('./../models/mprogram');
 let mpurchase = require('./../models/mpurchase');
-let cutil = "../utils/tmpUtils";
+let cutil = require("../utils/tmpUtils");
 /* create user. */
 router.all('/create', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
@@ -26,7 +26,8 @@ router.all('/create', function (req, res, next) {
                     util.Jwr(res, false, user, "You have added this program already");
                 }
             }).catch(err => {
-            util.Jwr(res, false, [], "Error adding info");
+                console.log(err);
+            util.Jwr(res, false, [], "Error adding programs to your list");
         })
     }, false)
 });
