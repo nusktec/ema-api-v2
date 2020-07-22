@@ -25,6 +25,7 @@ router.all('/create', function (req, res, next) {
                             ugender: sponsor.sgender
                         },
                     );
+                    util.doAudit(null, 'Navigated user' + ' created a new sponsor named ' + data.sname);
                     util.Jwr(res, true, sponsor, "New sponsor created/added !");
                 } else {
                     util.Jwr(res, false, sponsor, "Email already exist");
@@ -43,6 +44,7 @@ router.all('/update', function (req, res, next) {
                 if (user) {
                     //apply new updates
                     user.update(data);
+                    util.doAudit(null, 'Navigated user' + ' updated a sponsor named ' + data.sname);
                     util.Jwr(res, true, user, "Speaker records updated !");
                 } else {
                     util.Jwr(res, false, user, "Unable to update non-existing speaker");
@@ -71,6 +73,7 @@ router.all('/delete', function (req, res, next) {
         msponsor.destroy({where: {sid: data.sid}})
             .then((user) => {
                 if (user) {
+                    util.doAudit(null, 'Navigated user' + ' deleted a sponsor ' + data.sname);
                     util.Jwr(res, true, user, "Sponsor deleted");
                 } else {
                     util.Jwr(res, false, user, "Unable to delete sponsor !");

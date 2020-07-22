@@ -11,6 +11,7 @@ class Mprogram extends eng.Model {
 }
 Mprogram.init({
     pid: {primaryKey: true, autoIncrement: true, type: eng.DataTypes.INTEGER},
+    puid: {type: eng.DataTypes.INTEGER, allowNull: true},
     peid: {type: eng.DataTypes.INTEGER},
     ptitle: {type: eng.DataTypes.STRING, allowNull: false},
     palias: {type: eng.DataTypes.STRING, allowNull: false, unique: true},
@@ -25,7 +26,8 @@ Mprogram.init({
     pstart: {type: eng.DataTypes.STRING},
     pend: {type: eng.DataTypes.STRING},
     pdate: {type: eng.DataTypes.STRING},
-    pstatus: {type: eng.DataTypes.INTEGER, allowNull: true, defaultValue: 1},
+    pprivate: {type: eng.DataTypes.INTEGER, defaultValue: 0},
+    pstatus: {type: eng.DataTypes.INTEGER, defaultValue: 1},
 }, {sequelize: conn, modelName: 'rs_programs'});
 Mprogram.hasMany(myprogram, {as: 'myprograms', foreignKey: 'xid'});
 conn.sync();

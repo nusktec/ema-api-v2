@@ -17,6 +17,7 @@ let mmessages = require('./mmessage');
 let mpoll = require('./mpolls');
 let mansw = require('./manswer');
 let mprolist = require('./mprolist');
+let maudit = require('./maudit');
 const create = false;
 class init {
     constructor() {
@@ -38,6 +39,7 @@ class init {
             mpoll;
             mansw;
             mprolist;
+            maudit;
         }
     }
 }

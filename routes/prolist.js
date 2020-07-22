@@ -12,10 +12,12 @@ let mprolist = require('./../models/mprolist');
 let muser = require('./../models/musers');
 let mprogram = require('./../models/mprogram');
 let mpurchase = require('./../models/mpurchase');
+let cutil = "../utils/tmpUtils";
 /* create user. */
 router.all('/create', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
         //assign random ticket
+        data.lticket = cutil.generatePTicket();
         mprolist.findOrCreate({where: {[Op.and]: [{luid: data.luid}, {lpid: data.lpid}]}, defaults: data})
             .then(([user, created]) => {
                 if (created) {
@@ -38,6 +40,20 @@ router.all('/get', function (req, res, next) {
         }).then((user) => {
                 util.Jwr(res, true, user, "Program list loaded !");
             }).catch(err => {
+            util.Jwr(res, false, [], "Error getting my list info ");
+        })
+    }, false)
+});
+
+/* get user. */
+router.all('/get-ticket', function (req, res, next) {
+    util.JSONChecker(res, req.body, (data) => {
+        mprolist.findAll({
+            where: {lticket: data.lticket},
+            include: [{model: muser, as: 'user'}, {model: mprogram, as: 'program'}, {model: mpurchase, as: 'purchase'}]
+        }).then((user) => {
+            util.Jwr(res, true, user, "Program list loaded !");
+        }).catch(err => {
             util.Jwr(res, false, [], "Error getting my list info ");
         })
     }, false)

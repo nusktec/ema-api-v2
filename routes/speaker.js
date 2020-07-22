@@ -8,7 +8,7 @@ let util = require('../utils/utils');
 //models
 let mspeaker = require('./../models/mspeaker');
 let muser = require('./../models/musers');
-
+let {Op} = require('sequelize');
 /* create user. */
 router.all('/create', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
@@ -25,6 +25,7 @@ router.all('/create', function (req, res, next) {
                             ugender: user.sgender
                         },
                     );
+                    util.doAudit(null, 'Navigated user' + ' created a new speaker named ' + data.sname);
                     //now print out all
                     util.Jwr(res, true, user, "New speaker has been created !");
                 } else {
@@ -52,6 +53,7 @@ router.all('/update', function (req, res, next) {
                 if (user) {
                     //apply new updates
                     user.update(data);
+                    util.doAudit(null, 'Navigated user' + ' updated a speaker named ' + data.sname);
                     util.Jwr(res, true, user, "Speaker records updated !");
                 } else {
                     util.Jwr(res, false, user, "Unable to update non-existing speaker");
@@ -80,6 +82,7 @@ router.all('/delete', function (req, res, next) {
         mspeaker.destroy({where: {sid: data.sid}})
             .then((user) => {
                 if (user) {
+                    util.doAudit(null, 'Navigated user' + ' perform delete action on speaker with id ' + data.sid);
                     util.Jwr(res, true, user, "Speaker deleted");
                 } else {
                     util.Jwr(res, false, user, "Unable to delete speaker !");
@@ -93,7 +96,7 @@ router.all('/delete', function (req, res, next) {
 /* List All Users */
 router.all('/list', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
-        mspeaker.findAll({order: [['sid', 'DESC']]})
+        mspeaker.findAll({order: [['sid', 'DESC']], where: {suid: {[Op.or]: null, suid: {[Op.or]: data.suid}}}})
             .then((user) => {
                 if (user) {
                     util.Jwr(res, true, user, "All speaker listed");

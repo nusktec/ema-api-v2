@@ -26,7 +26,8 @@ Events.init({
     eexhibitors: {type: eng.DataTypes.TEXT, allowNull: true, defaultValue: '[]'},
     egallery: {type: eng.DataTypes.TEXT, allowNull: true, defaultValue: '[]'},
     etfamily: {type: eng.DataTypes.STRING, allowNull: true},
-    estatus: {type: eng.DataTypes.INTEGER, allowNull: true, defaultValue: 1},
+    eprivate: {type: eng.DataTypes.INTEGER, allowNull: true, defaultValue: 0},
+    estatus: {type: eng.DataTypes.INTEGER, allowNull: true, defaultValue: 0},
 }, {sequelize: conn, modelName: 'rs_events'});
 Events.hasMany(programs, {as: "nprograms", foreignKey: "peid"});
 Events.hasMany(epurchase, {as: "epurchases", foreignKey: "beid"});

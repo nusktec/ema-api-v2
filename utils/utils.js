@@ -3,6 +3,8 @@
  */
 let OneSignal = require('onesignal-node');
 let tmpUtils = require('./tmpUtils');
+//add models
+let audit = require('./../models/maudit');
 //json writer
 function Jwr(res, status, data, msg) {
     res.jsonp({status: status, data: data, msg: msg});
@@ -36,12 +38,20 @@ function sendNotification(body) {
     };
     client.createNotification(notification).then(response => {
         //console.log(response)
-        }).catch(e => {
-            //console.log("Error: ", e)
-        });
+    }).catch(e => {
+        //console.log("Error: ", e)
+    });
+}
+
+//do audits
+function doAudit(uid, body) {
+    if (data.body !== null) {
+        audit.create({auid: uid, aaction: body});
+        console.log("Audit created successfully...")
+    }
 }
 //export modules
-module.exports = {Jwr: Jwr, JSONChecker: checkBody, util: tmpUtils, sendNotification};
+module.exports = {Jwr: Jwr, JSONChecker: checkBody, util: tmpUtils, sendNotification, doAudit};
 
 // // Your code here!
 // $fields = array(

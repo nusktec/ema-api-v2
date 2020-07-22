@@ -100,6 +100,12 @@ class tmpUtils {
         let d = new Date();
         return "NCDMB-" + d.getUTCFullYear() + "" + d.getMonth() + "" + d.getDate() + "-" + tmpUtils.getRandomChar(5).toUpperCase();
     }
+
+    //generate token
+    static generatePTicket() {
+        let d = new Date();
+        return "NCP-" + d.getUTCFullYear() + "" + d.getMonth() + "" + d.getDate() + "-" + tmpUtils.getRandomChar(5).toUpperCase();
+    }
 }
 
 module.exports = tmpUtils;

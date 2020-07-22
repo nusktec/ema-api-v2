@@ -10,11 +10,26 @@ let mprogram = require('./../models/mprogram');
 let muser = require('./../models/musers');
 //database build
 let Seq = require('sequelize');
+let {Op} = require('sequelize');
 /* events user. */
 router.all('/list', function (req, res, next) {
     //check if body is empty
     util.JSONChecker(res, req.body, (data) => {
-        mprogram.findAll({order: [['pid', 'DESC']]})
+        mprogram.findAll({where: {pprivate: 0}, order: [['pid', 'DESC']]})
+            .then((program) => {
+                if (program !== null) {
+                    util.Jwr(res, true, program, "Program listed successful !");
+                } else {
+                    util.Jwr(res, false, {}, "No program list added");
+                }
+            })
+    }, true);
+});
+
+router.all('/list-adm', function (req, res, next) {
+    //check if body is empty
+    util.JSONChecker(res, req.body, (data) => {
+        mprogram.findAll({order: [['pid', 'DESC']], where: {puid: {[Op.or]: null, puid: {[Op.or]: data.puid}}}})
             .then((program) => {
                 if (program !== null) {
                     util.Jwr(res, true, program, "Program listed successful !");
@@ -32,13 +47,19 @@ router.all('/create', function (req, res, next) {
         mprogram.findOrCreate({where: {palias: data.palias}, defaults: data})
             .then(([program, created]) => {
                 if (created) {
-                    util.sendNotification({title: 'New program is available for one/more events', body: program.ptitle,  data: {isProgram: true, pid: program.pid}, banner: program.pbanner});
+                    util.doAudit(null, 'Navigated user' + ' created new program titled ' + data.ptitle);
+                    util.sendNotification({
+                        title: 'New program is available for one/more events',
+                        body: program.ptitle,
+                        data: {isProgram: true, pid: program.pid},
+                        banner: program.pbanner
+                    });
                     util.Jwr(res, true, program, "New program added/created successfully !");
                 } else {
                     util.Jwr(res, false, program, "Program event already exist");
                 }
             }).catch(err => {
-                console.log(err);
+            console.log(err);
             util.Jwr(res, false, [], "Error creating program");
         })
     }, false)
@@ -52,6 +73,7 @@ router.all('/update', function (req, res, next) {
                 if (program) {
                     //apply new updates
                     program.update(data);
+                    util.doAudit(null, 'Navigated user' + ' updated a program titled ' + data.ptitle);
                     util.Jwr(res, true, program, "Program records updated accordingly !");
                 } else {
                     util.Jwr(res, false, program, "Unable to update non-existing program");
@@ -65,7 +87,7 @@ router.all('/update', function (req, res, next) {
 /* user get. */
 router.all('/get', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
-        mprogram.findOne({where: {[Seq.Op.or]:[{pid: data.pid}, {palias: data.pid}]}})
+        mprogram.findOne({where: {[Seq.Op.or]: [{pid: data.pid}, {palias: data.pid}]}})
             .then((program) => {
                 if (program) {
                     util.Jwr(res, true, program, "Program loaded !");

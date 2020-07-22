@@ -15,7 +15,7 @@ router.all('/create', function (req, res, next) {
         general.findOrCreate({where: {galias: data.galias}, defaults: data})
             .then(([user, created]) => {
                 if (created) {
-                    util.Jwr(res, true, user, "New general info created info !");
+                    util.Jwr(res, true, user, "New information/content created !");
                 } else {
                     util.Jwr(res, false, user, "info already already exist with similar title");
                 }

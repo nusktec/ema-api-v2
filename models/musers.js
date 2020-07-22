@@ -19,6 +19,7 @@ Users.init({
     ugender: {type: eng.DataTypes.STRING(5), allowNull: true},
     uavatar: {type: eng.DataTypes.STRING, allowNull: true, defaultValue: 'https://firebasestorage.googleapis.com/v0/b/ema-front.appspot.com/o/avatars%2Fimage-placeholder.jpg?alt=media'},
     ubio: {type: eng.DataTypes.TEXT, allowNull: true},
+    uprivate: {type: eng.DataTypes.INTEGER, defaultValue: 1},
     utype: {type: eng.DataTypes.INTEGER, allowNull: false, defaultValue: 0},
     usession: {type: eng.DataTypes.STRING(255), allowNull: true},
 }, {sequelize: conn, modelName: 'rs_users'});

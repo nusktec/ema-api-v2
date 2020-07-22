@@ -2,7 +2,7 @@
  * Created by revelation on 18/05/2020.
  */
 // const MYSQL_CONN = {
-//     dbName: 'rs_emamobile_2',
+//     dbName: 'rs_emamobile_3',
 //     dbUser: 'root',
 //     dbPass: '',
 //     host: 'localhost',
@@ -10,7 +10,7 @@
 //     pool: {max: 5, min: 0, acquire: 30000, idle: 10000}
 // };
 const MYSQL_CONN = {
-    dbName: 'gicnjpsy_events',
+    dbName: 'gicnjpsy_events2',
     dbUser: 'gicnjpsy_eventsusr',
     dbPass: ']Y)1Eu)(679U',
     host: 'localhost',

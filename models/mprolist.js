@@ -15,6 +15,7 @@ Mprolist.init({
     luid: {type: eng.DataTypes.INTEGER, allowNull: false},
     lxid: {type: eng.DataTypes.INTEGER, allowNull: false},
     lpid: {type: eng.DataTypes.INTEGER, allowNull: false},
+    lticket: {type: eng.DataTypes.STRING, allowNull: false},
 }, {sequelize: conn, modelName: 'rs_eprolist'});
 //do belonging
 Mprolist.belongsTo(muser, {as: 'user', foreignKey: 'luid'});
