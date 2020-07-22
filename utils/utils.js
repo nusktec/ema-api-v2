@@ -45,7 +45,7 @@ function sendNotification(body) {
 
 //do audits
 function doAudit(uid, body) {
-    if (data.body !== null) {
+    if (body !== null) {
         audit.create({auid: uid, aaction: body});
         console.log("Audit created successfully...")
     }
