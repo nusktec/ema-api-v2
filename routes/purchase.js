@@ -20,9 +20,9 @@ router.all('/create', function (req, res, next) {
         purchase.findOrCreate({where: {beid: data.beid, buid: data.buid}, defaults: data})
             .then(([user, created]) => {
                 if (created) {
-                    util.Jwr(res, true, user, "New event has been created just now !");
+                    util.Jwr(res, true, user, "New event has been created for you just now !");
                 } else {
-                    util.Jwr(res, false, user, "Event already already exists in you list");
+                    util.Jwr(res, false, user, "Event has already been added to your list");
                 }
             }).catch(err => {
             util.Jwr(res, false, err, "Error creating purchases");
