@@ -17,12 +17,12 @@ router.all('/create', function (req, res, next) {
     util.JSONChecker(res, req.body, (data) => {
         //assign random ticket
         data.bticket = cutil.generateTicket();
-        purchase.findOrCreate({where: {bticket: data.bticket}, defaults: data})
+        purchase.findOrCreate({where: {beid: data.beid, buid: data.buid}, defaults: data})
             .then(([user, created]) => {
                 if (created) {
-                    util.Jwr(res, true, user, "New purchase were created just now !");
+                    util.Jwr(res, true, user, "New event has been created just now !");
                 } else {
-                    util.Jwr(res, false, user, "Ticket already already exist");
+                    util.Jwr(res, false, user, "Event already already exists in you list");
                 }
             }).catch(err => {
             util.Jwr(res, false, err, "Error creating purchases");
