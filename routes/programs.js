@@ -11,6 +11,7 @@ let muser = require('./../models/musers');
 //database build
 let Seq = require('sequelize');
 let {Op} = require('sequelize');
+
 /* events user. */
 router.all('/list', function (req, res, next) {
     //check if body is empty
@@ -29,14 +30,23 @@ router.all('/list', function (req, res, next) {
 router.all('/list-adm', function (req, res, next) {
     //check if body is empty
     util.JSONChecker(res, req.body, (data) => {
-        mprogram.findAll({order: [['pid', 'DESC']], where: {puid: {[Op.or]: null, puid: {[Op.or]: data.puid}}}})
-            .then((program) => {
+        if (data.puid === '' || data.puid === null || !data.puid) {
+            mprogram.findAll({order: [['pid', 'DESC']]}).then((program) => {
                 if (program !== null) {
-                    util.Jwr(res, true, program, "Program listed successful !");
+                    util.Jwr(res, true, program, "Program listed successful for admin !");
                 } else {
                     util.Jwr(res, false, {}, "No program list added");
                 }
             })
+        } else {
+            mprogram.findAll({order: [['pid', 'DESC']], where: {puid: data.puid}}).then((program) => {
+                if (program !== null) {
+                    util.Jwr(res, true, program, "Program listed successful for organizer !");
+                } else {
+                    util.Jwr(res, false, {}, "No program list added");
+                }
+            })
+        }
     }, true);
 });
 
