@@ -59,7 +59,7 @@ router.all('/list-title', function (req, res, next) {
     util.JSONChecker(res, req.body, async (data) => {
         if(data.qtitle && data.qtitle!==''){
             //read mysql raw
-            const resp = await dbconn.query("select * from `rs_manswers` ans RIGHT JOIN `rs_mpolls` pol ON pol.qid=ans.aqid where pol.qtitle='"+data.qtitle+"'");
+            const resp = await dbconn.query("select * from `rs_manswers` ans RIGHT JOIN `rs_mpolls` pol ON pol.qid=ans.aqid  LEFT JOIN `rs_users` usr ON ans.auid=usr.uid where pol.qtitle='"+data.qtitle+"'");
             if(resp && resp[0].length>0){
                 util.Jwr(res, true, resp[0], "Polling listed as required !");
             }else{
